@@ -1,31 +1,23 @@
-exports.up = function (knex, Promise) {
-  console.log('creating comments table');
-  return knex.schema.createTable('comments', (commentsTable) => {
-    commentsTable.increments('comment_id').primary();
+exports.up = function(knex, Promise) {
+  console.log("creating comments table");
+  return knex.schema.createTable("comments", commentsTable => {
+    commentsTable.increments("comment_id").primary();
     commentsTable
-      .string('author')
-      .references('username')
-      .inTable('users');
+      .string("author")
+      .references("username")
+      .inTable("users");
     commentsTable
-      .integer('article_id')
-      .references('article_id')
-      .inTable('articles')
+      .integer("article_id")
+      .references("article_id")
+      .inTable("articles")
       .notNullable();
-    commentsTable.integer('votes').defaultTo(0);
-    commentsTable.timestamp('created_at').defaultTo(knex.fn.now());
-    commentsTable.string('body', 999999).notNullable();
-    commentsTable
-      .string('belongs_to')
-      .references('title')
-      .inTable('articles');
-    commentsTable
-      .string('created_by')
-      .references('username')
-      .inTable('users');
+    commentsTable.integer("votes").defaultTo(0);
+    commentsTable.timestamp("created_at").defaultTo(knex.fn.now());
+    commentsTable.string("body", 999999).notNullable();
   });
 };
 
-exports.down = function (knex, Promise) {
-  console.log('removing articles table');
-  return knex.schema.dropTable('comments');
+exports.down = function(knex, Promise) {
+  console.log("removing articles table");
+  return knex.schema.dropTable("comments");
 };

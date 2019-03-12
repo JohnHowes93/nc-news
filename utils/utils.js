@@ -5,6 +5,24 @@ const dateParser = array =>
     return newItem;
   });
 
-const createBelongsToArticleIdRef = (belongsTo, articleId) => {};
+function createRef(inputArray, key, value) {
+  const refObj = {};
+  inputArray.forEach(item => {
+    refObj[item[key]] = item[value];
+  });
+  return refObj;
+}
 
-module.exports = { dateParser };
+function formatComments(commentData, articleRef) {
+  return commentData.map(comment => {
+    newObj = { ...comment };
+    const commentRef = comment.belongs_to;
+    newObj.article_id = articleRef[commentRef];
+    delete newObj.belongs_to;
+    newObj.author = comment.created_by;
+    delete newObj.created_by;
+    return newObj;
+  });
+}
+
+module.exports = { dateParser, createRef, formatComments };
