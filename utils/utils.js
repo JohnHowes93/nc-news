@@ -1,21 +1,20 @@
-const dateParser = array =>
-  array.map(item => {
-    const newDate = new Date(item.created_at);
-    const newItem = { ...item, created_at: newDate.toISOString() };
-    return newItem;
-  });
+const dateParser = array => array.map((item) => {
+  const newDate = new Date(item.created_at);
+  const newItem = { ...item, created_at: newDate.toISOString() };
+  return newItem;
+});
 
 function createRef(inputArray, key, value) {
   const refObj = {};
-  inputArray.forEach(item => {
+  inputArray.forEach((item) => {
     refObj[item[key]] = item[value];
   });
   return refObj;
 }
 
 function formatComments(commentData, articleRef) {
-  return commentData.map(comment => {
-    newObj = { ...comment };
+  return commentData.map((comment) => {
+    const newObj = { ...comment };
     const commentRef = comment.belongs_to;
     newObj.article_id = articleRef[commentRef];
     delete newObj.belongs_to;
