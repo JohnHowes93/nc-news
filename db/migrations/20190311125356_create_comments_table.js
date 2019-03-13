@@ -7,9 +7,9 @@ exports.up = function (knex, Promise) {
       .inTable('users');
     commentsTable
       .integer('article_id')
-      .references('article_id')
-      .inTable('articles')
-      .notNullable();
+      .references('articles.article_id')
+      .notNullable()
+      .onDelete('CASCADE');
     commentsTable.integer('votes').defaultTo(0);
     commentsTable.timestamp('created_at').defaultTo(knex.fn.now());
     commentsTable.string('body', 999999).notNullable();
