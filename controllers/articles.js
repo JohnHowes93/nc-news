@@ -39,12 +39,6 @@ const getArticleByIdController = (req, res, next) => getArticleByIdModel(req.par
   })
   .catch(next);
 
-// const patchArticleController = (req, res, next) => {
-//   patchArticleModel(req.params.article_id, req.body.inc_votes)
-//     .then(([patchedArticle]) => res.status(200).send({ patchedArticle }))
-//     .catch(next);
-// };
-
 const patchArticleController = (req, res, next) => {
   if (req.body.inc_votes === undefined) {
     res.status(400).send({ msg: 'Vote Not Found' });
@@ -64,13 +58,34 @@ const deleteArticleByIdController = (req, res, next) => {
 };
 
 const getCommentsByArticleIdController = (req, res, next) => {
-  getCommentsByArticleIdModel(
-    req.params.article_id,
-    req.query.sort_by,
-    req.query.order,
-  )
-    .then(retrievedComments => res.status(200).send({ retrievedComments }))
-    .catch(next);
+  Promise.all([
+    getArticleByIdModel(req.params.article_id),
+    getCommentsByArticleIdModel(
+      req.params.article_id,
+      req.query.sort_by,
+      req.query.order,
+    ),
+  ]).then((returnedArticleAndComments) => {
+    if (returnedArticleAndComments[0].length === 0) {
+      res.status(404).send({ msg: 'Article Not Found' });
+    } else if (returnedArticleAndComments[1].length === 0) {
+      res.status(404).send('No Comments Found');
+    } else {
+      res
+        .status(200)
+        .send({ retrievedComments: returnedArticleAndComments[1] });
+    }
+  });
+
+  // getCommentsByArticleIdModel()
+  //   .then(retrievedComments => {
+  //     if (retrievedComments.length === 0) {
+  //       res.status(404).send('No Comments Found');
+  //     } else {
+  //       res.status(200).send({ retrievedComments });
+  //     }
+  //   })
+  //   .catch(next);
 };
 
 const postCommentByArticleIdController = (req, res, next) => {
