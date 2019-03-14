@@ -66,10 +66,32 @@ const deleteArticleByIdModel = article_id => connection('articles')
   .where('article_id', article_id)
   .del();
 
+const getCommentsByArticleIdModel = (
+  article_id,
+  sort_by = 'created_at',
+  order = 'desc',
+  limit = 10,
+) => connection
+  .select('comment_id', 'votes', 'created_at', 'author', 'body')
+  .from('comments')
+  .where('article_id', article_id)
+  .orderBy(sort_by, order)
+  .limit(limit);
+
+const postCommentByArticleIdModel = (article_id, username, body) => connection('comments')
+  .insert({
+    article_id,
+    author: username,
+    body,
+  })
+  .returning('*');
+
 module.exports = {
   getArticlesModel,
   postArticleModel,
   getArticleByIdModel,
   patchArticleModel,
   deleteArticleByIdModel,
+  getCommentsByArticleIdModel,
+  postCommentByArticleIdModel,
 };

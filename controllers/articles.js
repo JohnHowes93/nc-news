@@ -4,6 +4,8 @@ const {
   getArticleByIdModel,
   patchArticleModel,
   deleteArticleByIdModel,
+  getCommentsByArticleIdModel,
+  postCommentByArticleIdModel,
 } = require('../models/articles');
 
 const getArticlesController = (req, res, next) => {
@@ -12,7 +14,8 @@ const getArticlesController = (req, res, next) => {
   } = req.query;
   return getArticlesModel(author, topic, sort_by, order, limit)
     .then((fetchedArticles) => {
-      res.status(200).send({ fetchedArticles });
+      if ([fetchedArticles]) res.status(200).send({ fetchedArticles });
+      else Promise.reject({ status: 404, msg: 'Article Not Found' });
     })
     .catch(next);
 };
@@ -60,10 +63,34 @@ const deleteArticleByIdController = (req, res, next) => {
     .catch(next);
 };
 
+const getCommentsByArticleIdController = (req, res, next) => {
+  getCommentsByArticleIdModel(
+    req.params.article_id,
+    req.query.sort_by,
+    req.query.order,
+  )
+    .then(retrievedComments => res.status(200).send({ retrievedComments }))
+    .catch(next);
+};
+
+const postCommentByArticleIdController = (req, res, next) => {
+  postCommentByArticleIdModel(
+    req.params.article_id,
+    req.body.username,
+    req.body.body,
+  )
+    .then(([postedComment]) => {
+      res.status(201).send({ postedComment });
+    })
+    .catch(next);
+};
+
 module.exports = {
   getArticlesController,
   postArticleController,
   getArticleByIdController,
   patchArticleController,
   deleteArticleByIdController,
+  getCommentsByArticleIdController,
+  postCommentByArticleIdController,
 };
