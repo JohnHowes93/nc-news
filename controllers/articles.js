@@ -52,6 +52,16 @@ const patchArticleController = (req, res, next) => {
 };
 
 const deleteArticleByIdController = (req, res, next) => {
+  // Promise.all([getArticleByIdModel(req.params.article_id)]).then(
+  //   returnedArticle => {
+  //     if (returnedArticle.length === 0) {
+  //       res
+  //         .status(404)
+  //         .send({ msg: 'Cannot Delete Article That Does Not Exists' });
+  //     } else deleteArticleByIdModel(req.params.article_id);
+  //     res.sendStatus(204);
+  //   })
+
   deleteArticleByIdModel(req.params.article_id)
     .then(() => res.sendStatus(204))
     .catch(next);

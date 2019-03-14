@@ -250,7 +250,7 @@ describe('/api', () => {
     });
 
     // GET COMMENTS BY ID
-    describe.only('GET COMMENTS BY ID', () => {
+    describe('GET COMMENTS BY ID', () => {
       it('retrives an array of comments for the given article_id which by default is sorted by date and is limited to 10 comments', () => request
         .get('/api/articles/1/comments')
         .expect(200)
@@ -371,12 +371,7 @@ describe('/api', () => {
         .delete('/api/comments/1')
         .expect(204)
         .then(() => request.get('/api/comment/1').expect(404)));
-      it('responds with a 404 error if given incorrect comment_id', () => request
-        .delete('/api/comments/999')
-        .expect(204)
-        .then((response) => {
-          expect(response.body.msg).to.equal('No content');
-        }));
+      it('responds with a 404 error if given incorrect comment_id', () => request.delete('/api/comments/999').expect(204));
     });
   });
 });
