@@ -13,6 +13,10 @@ const postUserController = (req, res, next) => {
     res.status(400).send({ msg: 'Invalid Username' });
   } else if (typeof name !== 'string') {
     res.status(400).send({ msg: 'Invalid Name' });
+  } else if (
+    /(http(s?):)([/|.|\w|\s|-])*\.(?:jpg|gif|png)/g.test(avatar_url) === false
+  ) {
+    res.status(400).send({ msg: 'Invalid Avatar URL - Must Be (JPG/PNG/GIF)' });
   } else {
     return postUserModel(username, avatar_url, name)
       .then(([postedUser]) => {

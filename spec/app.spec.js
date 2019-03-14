@@ -392,7 +392,7 @@ describe('/api', () => {
       it('responds with the posted user, containing their username, avatar_url & name', () => {
         const testUser = {
           username: 'testUsername',
-          avatar_url: 'testAvatarURL',
+          avatar_url: 'http://testAvatarURL.jpg',
           name: 'testName',
         };
         return request
@@ -402,7 +402,7 @@ describe('/api', () => {
           .then((response) => {
             expect(response.body.postedUser).to.include({
               username: 'testUsername',
-              avatar_url: 'testAvatarURL',
+              avatar_url: 'http://testAvatarURL.jpg',
               name: 'testName',
             });
           });
@@ -410,7 +410,7 @@ describe('/api', () => {
       it('request with invalid username returns status: 400 message: Invalid Username', () => {
         const testUser = {
           username: 1,
-          avatar_url: 'testAvatarURL',
+          avatar_url: 'http://testAvatarURL.jpg',
           name: 'testName',
         };
         return request
@@ -424,7 +424,7 @@ describe('/api', () => {
       it('request with invalid name returns status: 400 message: Invalid Name', () => {
         const testUser = {
           username: 'testUser',
-          avatar_url: 'testAvatarURL',
+          avatar_url: 'http://testAvatarURL.jpg',
           name: 1,
         };
         return request
@@ -433,6 +433,22 @@ describe('/api', () => {
           .expect(400)
           .then((response) => {
             expect(response.body.msg).to.equal('Invalid Name');
+          });
+      });
+      it('request with invalid avatar_url returns status: 400 message: Invalid Avatar URL - Must Be (JPG/PNG/GIF)', () => {
+        const testUser = {
+          username: 'testUser',
+          avatar_url: 'testAvatarURL',
+          name: 'testName',
+        };
+        return request
+          .post('/api/users')
+          .send(testUser)
+          .expect(400)
+          .then((response) => {
+            expect(response.body.msg).to.equal(
+              'Invalid Avatar URL - Must Be (JPG/PNG/GIF)',
+            );
           });
       });
     });
