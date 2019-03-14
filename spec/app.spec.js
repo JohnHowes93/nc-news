@@ -374,4 +374,19 @@ describe('/api', () => {
       it('responds with a 404 error if given incorrect comment_id', () => request.delete('/api/comments/999').expect(204));
     });
   });
+  // USERS
+  describe('USERS', () => {
+    describe('GET', () => {
+      it('responds with an array of user objects, each with username, avatar_url & name', () => request
+        .get('/api/users')
+        .expect(200)
+        .then((response) => {
+          expect(response.body.fetchedUsers[0]).to.have.keys(
+            'username',
+            'avatar_url',
+            'name',
+          );
+        }));
+    });
+  });
 });
