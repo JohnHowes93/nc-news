@@ -32,4 +32,44 @@ const getArticlesModel = (
   .groupBy('comments.article_id', 'articles.article_id')
   .orderBy(sort_by, order)
   .limit(limit);
-module.exports = { getArticlesModel };
+
+const postArticleModel = (title, body, topic, author) => connection('articles')
+  .insert({
+    title,
+    body,
+    topic,
+    author,
+  })
+  .returning('*');
+
+const getArticleByIdModel = article_id => connection
+  .select(
+    'articles.author',
+    'articles.title',
+    'articles.article_id',
+    'articles.topic',
+    'articles.created_at',
+    'articles.votes',
+  )
+  .from('articles')
+  .where('articles.article_id', article_id)
+  .leftJoin('comments', 'articles.article_id', '=', 'comments.article_id')
+  .count({ comment_count: 'comments.article_id' })
+  .groupBy('comments.article_id', 'articles.article_id');
+
+const patchArticleModel = (article_id, newVote) => connection('articles')
+  .where('articles.article_id', article_id)
+  .increment('votes', newVote || 0)
+  .returning('*');
+
+const deleteArticleByIdModel = article_id => connection('articles')
+  .where('article_id', article_id)
+  .del();
+
+module.exports = {
+  getArticlesModel,
+  postArticleModel,
+  getArticleByIdModel,
+  patchArticleModel,
+  deleteArticleByIdModel,
+};
