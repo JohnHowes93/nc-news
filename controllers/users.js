@@ -1,10 +1,23 @@
-const getUsersModel = require('../models/users');
+const { getUsersModel, postUserModel } = require('../models/users');
 
-const getUsersController = (req, res, next) => getUsersModel()
-  .then((fetchedUsers) => {
-    if (fetchedUsers) res.status(200).send({ fetchedUsers });
-    else Promise.reject({ status: 404, msg: 'Users Not Found' });
-  })
-  .catch(next);
+const getUsersController = (req, res, next) =>
+  getUsersModel()
+    .then(fetchedUsers => {
+      if (fetchedUsers) res.status(200).send({ fetchedUsers });
+      else Promise.reject({ status: 404, msg: 'Users Not Found' });
+    })
+    .catch(next);
 
-module.exports = getUsersController;
+const postUserController = (req, res, next) => {
+  const { username, avatar_url, name } = req.body;
+  if (typeof username !== 'string') {
+    res.status(400).send({ msg: 'Invalid Username' });
+  } else
+    return postUserModel(username, avatar_url, name)
+      .then(([postedUser]) => {
+        res.status(201).send({ postedUser });
+      })
+      .catch(next);
+};
+
+module.exports = { getUsersController, postUserController };
