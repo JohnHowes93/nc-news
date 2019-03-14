@@ -1,4 +1,8 @@
-const { getUsersModel, postUserModel } = require('../models/users');
+const {
+  getUsersModel,
+  postUserModel,
+  getUserByUsernameModel,
+} = require('../models/users');
 
 const getUsersController = (req, res, next) => getUsersModel()
   .then((fetchedUsers) => {
@@ -26,4 +30,15 @@ const postUserController = (req, res, next) => {
   }
 };
 
-module.exports = { getUsersController, postUserController };
+const getUserByUsernameController = (req, res, next) => {
+  getUserByUsernameModel(req.params.username).then(([requestedUser]) => {
+    if (requestedUser) res.status(200).send({ requestedUser });
+    else res.status(404).send({ msg: 'User Not Found' });
+  });
+};
+
+module.exports = {
+  getUsersController,
+  postUserController,
+  getUserByUsernameController,
+};

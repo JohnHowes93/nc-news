@@ -10,4 +10,9 @@ const postUserModel = (username, avatar_url, name) => connection('users')
   })
   .returning('*');
 
-module.exports = { getUsersModel, postUserModel };
+const getUserByUsernameModel = username => connection
+  .select('*')
+  .from('users')
+  .where('users.username', username);
+
+module.exports = { getUsersModel, postUserModel, getUserByUsernameModel };

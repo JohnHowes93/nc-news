@@ -375,7 +375,7 @@ describe('/api', () => {
     });
   });
   // USERS
-  describe('USERS', () => {
+  describe('/users', () => {
     describe('GET', () => {
       it('responds with an array of user objects, each with username, avatar_url & name', () => request
         .get('/api/users')
@@ -451,6 +451,25 @@ describe('/api', () => {
             );
           });
       });
+    });
+    describe('GET BY USERNAME', () => {
+      it('responds with a user object that contains username, avatar_url & name', () => request
+        .get('/api/users/butter_bridge')
+        .expect(200)
+        .then((response) => {
+          expect(response.body.requestedUser).to.eql({
+            username: 'butter_bridge',
+            name: 'jonny',
+            avatar_url:
+                'https://www.healthytherapies.com/wp-content/uploads/2016/06/Lime3.jpg',
+          });
+        }));
+      it('responds with status 404, message: User Not Found if user does not exist', () => request
+        .get('/api/users/test')
+        .expect(404)
+        .then((response) => {
+          expect(response.body.msg).to.eql('User Not Found');
+        }));
     });
   });
 });
