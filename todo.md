@@ -22,10 +22,6 @@ delete newObj.created_by;
 
 - Each route should have a `.all` method attached which serves a `405` for `Method Not Allowed` (but test for this first!)
 
-## Error Handling
-
-- `app.use('/*', handle400s);` should not need a path
-
 ## Controllers
 
 - extract the `/api` route data into a `.json` file that can be required in
