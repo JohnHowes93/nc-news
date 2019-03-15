@@ -28,13 +28,6 @@ delete newObj.created_by;
 
 ### `POST /api/topics`
 
-status:422 client sends a body with a duplicate slug:
-Error: Timeout of 2000ms exceeded. For async tests and hooks, ensure "done()" is called; if returning a Promise, ensure it resolves.
-
-**UNHANDLED PROMISE REJECTION** - No `.catch` block!
-
-### `POST /api/topics`
-
 status:400 if request body is malformed (missing description property):
 Error: expected 400 "Bad Request", got 201 "Created"
 

@@ -63,6 +63,16 @@ describe('/api', () => {
           expect(response.body.msg).to.eql('Topic Already Exists');
         });
     });
+    it('responds to invalid POST request (if body is missing description property) with 400 status and message: Topic Description Required', () => {
+      const testTopic = { slug: 'testslug' };
+      return request
+        .post('/api/topics')
+        .send(testTopic)
+        .expect(422)
+        .then((response) => {
+          expect(response.body.msg).to.eql('Topic Description Required');
+        });
+    });
     // OTHER METHODS
     it('responds to invalid method requests with 405 method not allowed', () => {
       const testTopic = { description: '123', slug: 'test' };
