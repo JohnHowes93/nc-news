@@ -22,10 +22,13 @@ articlesRouter
   .route('/:article_id')
   .get(getArticleByIdController)
   .patch(patchArticleController)
-  .delete(deleteArticleByIdController);
+  .delete(deleteArticleByIdController)
+  .all(handle405);
 
 articlesRouter
   .route('/:article_id/comments')
   .get(getCommentsByArticleIdController)
-  .post(postCommentByArticleIdController);
+  .post(postCommentByArticleIdController)
+  .all(handle405);
+
 module.exports = articlesRouter;

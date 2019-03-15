@@ -357,8 +357,20 @@ describe('/api', () => {
       });
     });
     describe('OTHER METHODS', () => {
-      it('responds to invalid method requests with 405 method not allowed', () => request
+      it('responds to invalid method requests with 405 method not allowed on /', () => request
         .put('/api/articles')
+        .expect(405)
+        .then((response) => {
+          expect(response.body.msg).to.eql('Method Not Allowed');
+        }));
+      it('responds to invalid method requests with 405 method not allowed on /article:id', () => request
+        .put('/api/articles/1')
+        .expect(405)
+        .then((response) => {
+          expect(response.body.msg).to.eql('Method Not Allowed');
+        }));
+      it('responds to invalid method requests with 405 method not allowed on /article:id/comments', () => request
+        .put('/api/articles/comments/')
         .expect(405)
         .then((response) => {
           expect(response.body.msg).to.eql('Method Not Allowed');
@@ -407,7 +419,13 @@ describe('/api', () => {
       it('responds with a 404 error if given incorrect comment_id', () => request.delete('/api/comments/999').expect(204));
     });
     describe('OTHER METHODS', () => {
-      it('responds to invalid method requests with 405 method not allowed', () => request
+      it('responds to invalid method requests with 405 method not allowed on /', () => request
+        .put('/api/comments')
+        .expect(405)
+        .then((response) => {
+          expect(response.body.msg).to.eql('Method Not Allowed');
+        }));
+      it('responds to invalid method requests with 405 method not allowed on /comment:id', () => request
         .put('/api/comments')
         .expect(405)
         .then((response) => {
@@ -513,8 +531,14 @@ describe('/api', () => {
         }));
     });
     describe('OTHER METHODS', () => {
-      it('responds to invalid method requests with 405 method not allowed', () => request
+      it('responds to invalid method requests with 405 method not allowed on /', () => request
         .put('/api/users')
+        .expect(405)
+        .then((response) => {
+          expect(response.body.msg).to.eql('Method Not Allowed');
+        }));
+      it('responds to invalid method requests with 405 method not allowed on /:username', () => request
+        .put('/api/users/mitch')
         .expect(405)
         .then((response) => {
           expect(response.body.msg).to.eql('Method Not Allowed');

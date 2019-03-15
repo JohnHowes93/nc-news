@@ -49,18 +49,6 @@ Error: expected 400 "Bad Request", got 201 "Created"
 
 - Up to you whether you want to change this. Might be nicer to deal with in the front end if it is always there.
 
-### `/api/topics`
-
-status:405 invalid HTTP method for this resource:
-Error: expected 405 "Method Not Allowed", got 404 "Not Found"
-
-- `.all` -> `handle405`
-
-### `/api/articles`
-
-status:405 invalid request method for end-point:
-Error: expected 405 "Method Not Allowed", got 404 "Not Found"
-
 ### `GET /api/articles`
 
 status:200 will ignore an invalid sort_by query:
@@ -103,11 +91,6 @@ Error: expected 404 "Not Found", got 400 "Bad Request"
 
 - Check whether something has been deleted. If not, send `404`.
 
-### `/api/articles/:article_id
-
-invalid methods respond with 405:
-Error: expected 405 "Method Not Allowed", got 404 "Not Found"
-
 ### `GET /api/articles/:article_id
 
 status:404 url contains a non-existent (but potentially valid) article_id:
@@ -121,11 +104,6 @@ status:404 when given a non-existent article_id:
 Error: expected 404 "Not Found", got 204 "No Content"
 
 - Check how many things have been deleted. If `0` -> give `404`
-
-### `/api/articles/:article_id/comments`
-
-invalid methods respond with 405:
-Error: expected 405 "Method Not Allowed", got 404 "Not Found"
 
 ### `GET /api/articles/:article_id/comments`
 
@@ -163,13 +141,3 @@ Error: expected 404 "Not Found", got 400 "Bad Request"
 
 status:404 client uses non-existent comment_id:
 Error: expected 404 "Not Found", got 204 "No Content"
-
-### `/api/comments/:comment_id`
-
-invalid methods respond with 405:
-Error: expected 405 "Method Not Allowed", got 404 "Not Found"
-
-### `api/users/:username`
-
-invalid methods respond with 405:
-Error: expected 405 "Method Not Allowed", got 404 "Not Found"

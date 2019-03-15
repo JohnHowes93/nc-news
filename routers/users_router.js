@@ -13,6 +13,8 @@ usersRouter
   .post(postUserController)
   .all(handle405);
 
-usersRouter.get('/:username', getUserByUsernameController);
-
+usersRouter
+  .route('/:username')
+  .get(getUserByUsernameController)
+  .all(handle405);
 module.exports = usersRouter;
