@@ -54,27 +54,6 @@ Error: expected 200 "OK", got 400 "Bad Request"
 
 - Up to you whether you want to change this. Just make sure you are consistent. -->
 
-### `DELETE /api/articles/:article_id`
-
-status:204 and removes the article when given a valid article_id:
-Error: expected 404 "Not Found", got 400 "Bad Request"
-
-- Check whether something has been deleted. If not, send `404`.
-
-### `GET /api/articles/:article_id
-
-status:404 url contains a non-existent (but potentially valid) article_id:
-Error: expected 404 "Not Found", got 400 "Bad Request"
-
-- Any number (or, numeric string) should count as a valid id. Then, we can check whether an article was found and give a `404` if not.
-
-### `DELETE /api/articles/:article_id`
-
-status:404 when given a non-existent article_id:
-Error: expected 404 "Not Found", got 204 "No Content"
-
-- Check how many things have been deleted. If `0` -> give `404`
-
 ### `GET /api/articles/:article_id/comments`
 
 responds with 400 for an invalid article_id:
