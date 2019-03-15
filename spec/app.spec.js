@@ -26,7 +26,7 @@ describe('/api', () => {
     });
   });
 
-  describe('/topics', () => {
+  describe.only('/topics', () => {
     // GET
     it('responds to GET requests with an array of topics', () => request
       .get('/api/topics')
@@ -53,6 +53,16 @@ describe('/api', () => {
           });
         });
     });
+    it('responds to invalid POST request (duplicate slug) with 422 status and message: Topic Already Exists', () => {
+      const testTopic = { description: '123', slug: 'mitch' };
+      return request
+        .post('/api/topics')
+        .send(testTopic)
+        .expect(422)
+        .then((response) => {
+          expect(response.body.msg).to.eql('Topic Already Exists');
+        });
+    });
     // OTHER METHODS
     it('responds to invalid method requests with 405 method not allowed', () => {
       const testTopic = { description: '123', slug: 'test' };
@@ -66,7 +76,7 @@ describe('/api', () => {
     });
   });
 
-  describe.only('/articles', () => {
+  describe('/articles', () => {
     // GET
     describe('GET', () => {
       it('responds to GET requests with an array of topics and their associated comment count', () => request
