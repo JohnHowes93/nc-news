@@ -18,14 +18,9 @@ newObj.author = comment.created_by;
 delete newObj.created_by;
 ```
 
-## app & Routes
-
-- Each route should have a `.all` method attached which serves a `405` for `Method Not Allowed` (but test for this first!)
-
 ## Controllers
 
 - extract the `/api` route data into a `.json` file that can be required in
-- should consistently respond with correct key for the resource that you are serving up. e.g: `{ articles: [...] }` / `{ article: {...} }`. This makes it much more predictable on the client side.
 - `if (articles)` might be problematic. An empty array might be `truthy`... We also need to differentiate between a `topic` / `author` that exists but has no articles (`[]`) and a `topic` / `author` that does not exist (`404`)
 - Set mysterious values to variables so that it is more obvious what they are (`/(http(s?):)([/|.|\w|\s|-])*\.(?:jpg|gif|png)/g`)
 

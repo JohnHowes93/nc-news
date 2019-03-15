@@ -5,39 +5,36 @@ const {
   patchArticleModel,
   deleteArticleByIdModel,
   getCommentsByArticleIdModel,
-  postCommentByArticleIdModel,
+  postCommentByArticleIdModel
 } = require('../models/articles');
 
 const getArticlesController = (req, res, next) => {
-  const {
-    author, topic, sort_by, order, limit,
-  } = req.query;
+  const { author, topic, sort_by, order, limit } = req.query;
   return getArticlesModel(author, topic, sort_by, order, limit)
-    .then((fetchedArticles) => {
-      if (fetchedArticles) res.status(200).send({ fetchedArticles });
+    .then(articles => {
+      if (articles) res.status(200).send({ articles });
       else Promise.reject({ status: 404, msg: 'Article Not Found' });
     })
     .catch(next);
 };
 
 const postArticleController = (req, res, next) => {
-  const {
-    title, body, topic, author,
-  } = req.body;
+  const { title, body, topic, author } = req.body;
   return postArticleModel(title, body, topic, author)
-    .then(([postedArticle]) => {
-      res.status(201).send({ postedArticle });
+    .then(([article]) => {
+      res.status(201).send({ article });
     })
     .catch(next);
 };
 
-const getArticleByIdController = (req, res, next) => getArticleByIdModel(req.params.article_id)
-  .then(([fetchedArticleById]) => {
-    if (fetchedArticleById === undefined) {
-      res.status(400).send({ msg: 'Article Not Found' });
-    } else res.status(200).send({ fetchedArticleById });
-  })
-  .catch(next);
+const getArticleByIdController = (req, res, next) =>
+  getArticleByIdModel(req.params.article_id)
+    .then(([article]) => {
+      if (article === undefined) {
+        res.status(400).send({ msg: 'Article Not Found' });
+      } else res.status(200).send({ article });
+    })
+    .catch(next);
 
 const patchArticleController = (req, res, next) => {
   if (req.body.inc_votes === undefined) {
@@ -46,7 +43,7 @@ const patchArticleController = (req, res, next) => {
     res.status(400).send({ msg: 'Vote Not Valid Number' });
   } else {
     patchArticleModel(req.params.article_id, req.body.inc_votes)
-      .then(([patchedArticle]) => res.status(200).send({ patchedArticle }))
+      .then(([article]) => res.status(200).send({ article }))
       .catch(next);
   }
 };
@@ -73,17 +70,15 @@ const getCommentsByArticleIdController = (req, res, next) => {
     getCommentsByArticleIdModel(
       req.params.article_id,
       req.query.sort_by,
-      req.query.order,
-    ),
-  ]).then((returnedArticleAndComments) => {
+      req.query.order
+    )
+  ]).then(returnedArticleAndComments => {
     if (returnedArticleAndComments[0].length === 0) {
       res.status(404).send({ msg: 'Article Not Found' });
     } else if (returnedArticleAndComments[1].length === 0) {
       res.status(404).send('No Comments Found');
     } else {
-      res
-        .status(200)
-        .send({ retrievedComments: returnedArticleAndComments[1] });
+      res.status(200).send({ comments: returnedArticleAndComments[1] });
     }
   });
 
@@ -102,10 +97,10 @@ const postCommentByArticleIdController = (req, res, next) => {
   postCommentByArticleIdModel(
     req.params.article_id,
     req.body.username,
-    req.body.body,
+    req.body.body
   )
-    .then(([postedComment]) => {
-      res.status(201).send({ postedComment });
+    .then(([comment]) => {
+      res.status(201).send({ comment });
     })
     .catch(next);
 };
@@ -117,5 +112,5 @@ module.exports = {
   patchArticleController,
   deleteArticleByIdController,
   getCommentsByArticleIdController,
-  postCommentByArticleIdController,
+  postCommentByArticleIdController
 };
