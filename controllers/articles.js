@@ -33,8 +33,9 @@ const postArticleController = (req, res, next) => {
 
 const getArticleByIdController = (req, res, next) => getArticleByIdModel(req.params.article_id)
   .then(([article]) => {
+    console.log(article);
     if (article === undefined) {
-      res.status(400).send({ msg: 'Article Not Found' });
+      res.status(404).send({ msg: 'Article Not Found' });
     } else res.status(200).send({ article });
   })
   .catch(next);
