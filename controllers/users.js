@@ -12,14 +12,13 @@ const getUsersController = (req, res, next) => getUsersModel()
   .catch(next);
 
 const postUserController = (req, res, next) => {
+  const avatarUrlRegex = /(http(s?):)([/|.|\w|\s|-])*\.(?:jpg|gif|png)/g;
   const { username, avatar_url, name } = req.body;
   if (typeof username !== 'string') {
     res.status(400).send({ msg: 'Invalid Username' });
   } else if (typeof name !== 'string') {
     res.status(400).send({ msg: 'Invalid Name' });
-  } else if (
-    /(http(s?):)([/|.|\w|\s|-])*\.(?:jpg|gif|png)/g.test(avatar_url) === false
-  ) {
+  } else if (avatarUrlRegex.test(avatar_url) === false) {
     res.status(400).send({ msg: 'Invalid Avatar URL - Must Be (JPG/PNG/GIF)' });
   } else {
     return postUserModel(username, avatar_url, name)

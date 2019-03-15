@@ -67,15 +67,17 @@ const getCommentsByArticleIdController = (req, res, next) => {
       req.query.sort_by,
       req.query.order,
     ),
-  ]).then((returnedArticleAndComments) => {
-    if (returnedArticleAndComments[0].length === 0) {
-      res.status(404).send({ msg: 'Article Not Found' });
-    } else if (returnedArticleAndComments[1].length === 0) {
-      res.status(404).send('No Comments Found');
-    } else {
-      res.status(200).send({ comments: returnedArticleAndComments[1] });
-    }
-  });
+  ])
+    .then((returnedArticleAndComments) => {
+      if (returnedArticleAndComments[0].length === 0) {
+        res.status(404).send({ msg: 'Article Not Found' });
+      } else if (returnedArticleAndComments[1].length === 0) {
+        res.status(404).send('No Comments Found');
+      } else {
+        res.status(200).send({ comments: returnedArticleAndComments[1] });
+      }
+    })
+    .catch(next);
 
   // getCommentsByArticleIdModel()
   //   .then(retrievedComments => {

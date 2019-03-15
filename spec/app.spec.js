@@ -290,7 +290,7 @@ describe('/api', () => {
     });
 
     // DELETE
-    describe.only('DELETE', () => {
+    describe('DELETE', () => {
       it('deletes the given article by article_id', () => request.delete('/api/articles/1').expect(204));
       it('responds with a 400 if given incorrect article_id', () => request.delete('/api/articles/999').expect(400));
     });

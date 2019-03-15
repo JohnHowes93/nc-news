@@ -54,13 +54,6 @@ Error: expected 200 "OK", got 400 "Bad Request"
 
 - Up to you whether you want to change this. Just make sure you are consistent. -->
 
-### `GET /api/articles/:article_id/comments`
-
-responds with 400 for an invalid article_id:
-Error: Timeout of 2000ms exceeded. For async tests and hooks, ensure "done()" is called; if returning a Promise, ensure it resolves.
-
-- **UNHANDLED PROMISE REJECTION** - No `.catch` block!
-
 ### `POST /api/articles/:article_id/comments`
 
 responds with a 404 when given a non-existent article id:
