@@ -14,7 +14,7 @@ const getArticlesController = (req, res, next) => {
   } = req.query;
   return getArticlesModel(author, topic, sort_by, order, limit)
     .then((articles) => {
-      if (articles) res.status(200).send({ articles });
+      if (articles.length > 0) res.status(200).send({ articles });
       else Promise.reject({ status: 404, msg: 'Article Not Found' });
     })
     .catch(next);
