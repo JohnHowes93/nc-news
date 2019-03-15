@@ -2,7 +2,7 @@ const apiTopics = {
   'GET /api/articles':
     'Responds with an array of topic objects, each of which should have the following properties: slug, description',
   'POST /api/articles':
-    'Request body accepts an object containing the following properties: slug (which must be unique), description. Responds with the posted topic object'
+    'Request body accepts an object containing the following properties: slug (which must be unique), description. Responds with the posted topic object',
 };
 
 const apiArticles = {
@@ -19,14 +19,14 @@ const apiArticles = {
   'GET /api/articles/:article_id/comments':
     'Responds with an array of comments for the given article_id of which each comment should have the following properties: comment_id, votes, created_at, author (which is the username from the users table), body. Accepts queries sort_by (which sorts the articles by any valid column and defaults to date), order (which can be set to asc or desc for ascending or descending and defaults to descending), limit (which limits the number of responses and defaults to 10)',
   'POST /api/articles/:article_id/comments':
-    'Request body accepts an object with the following properties: username, body. Responds with the posted comment'
+    'Request body accepts an object with the following properties: username, body. Responds with the posted comment',
 };
 
 const apiComments = {
   'PATCH /api/comments/:comment_id':
     'Request body accepts an object in the form { inc_votes: newVote } (newVote will indicate how much the votes property in the database should be updated by).Responds with the updated comment',
   'DELETE /api/comments/:comment_id':
-    'Should delete the given comment by comment_id. Responds with status 204 and no content'
+    'Should delete the given comment by comment_id. Responds with status 204 and no content',
 };
 
 const apiUsers = {
@@ -35,17 +35,23 @@ const apiUsers = {
   'POST /api/users':
     'Request body accepts an object containing the following properties: username, avatar_url, name. Responds with the posted user',
   'GET /api/users/:username':
-    'Responds with a user object which should have the following properties: username, avatar_url, name'
+    'Responds with a user object which should have the following properties: username, avatar_url, name',
 };
 
 const apiInfo = {
   'GET /api':
-    'Responds with JSON describing all the available endpoints on your API'
+    'Responds with JSON describing all the available endpoints on your API',
 };
 
-const apiInfo = { apiTopics, apiArticles, apiComments, apiUsers };
+const apiInfoToSend = {
+  apiTopics,
+  apiArticles,
+  apiComments,
+  apiUsers,
+  apiInfo,
+};
 
-const sendApiInfo = (req, res, next) => res.status(200).send(apiInfo);
+const sendApiInfo = (req, res, next) => res.status(200).send(apiInfoToSend);
 
 module.exports = sendApiInfo;
 

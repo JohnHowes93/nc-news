@@ -12,12 +12,9 @@ describe('/api', () => {
   beforeEach(() => connection.seed.run());
   after(() => connection.destroy());
 
-  describe.only('/', () => {
+  describe('/', () => {
     it('returns a JSON describing all the available endpoints on the API ', () =>
-      request
-        .get('/api')
-        .expect(200)
-        .then(response => console.log(response.body)));
+      request.get('/api').expect(200));
   });
 
   describe('/topics', () => {
