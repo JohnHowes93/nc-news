@@ -13,7 +13,17 @@ describe('/api', () => {
   after(() => connection.destroy());
 
   describe('/', () => {
-    it('returns a JSON describing all the available endpoints on the API ', () => request.get('/api').expect(200));
+    describe('GET', () => {
+      it('returns a JSON describing all the available endpoints on the API ', () => request.get('/api').expect(200));
+    });
+    describe('OTHER METHODS', () => {
+      it('responds to invalid method requests with 405 method not allowed', () => request
+        .put('/api')
+        .expect(405)
+        .then((response) => {
+          expect(response.body.msg).to.eql('Method Not Allowed');
+        }));
+    });
   });
 
   describe('/topics', () => {
@@ -44,7 +54,7 @@ describe('/api', () => {
         });
     });
     // OTHER METHODS
-    it.only('responds to invalid method requests with 405 method not allowed', () => {
+    it('responds to invalid method requests with 405 method not allowed', () => {
       const testTopic = { description: '123', slug: 'test' };
       return request
         .patch('/api/topics')
@@ -346,6 +356,14 @@ describe('/api', () => {
           });
       });
     });
+    describe('OTHER METHODS', () => {
+      it('responds to invalid method requests with 405 method not allowed', () => request
+        .put('/api/articles')
+        .expect(405)
+        .then((response) => {
+          expect(response.body.msg).to.eql('Method Not Allowed');
+        }));
+    });
   });
   describe('/comments', () => {
     // PATCH COMMENT BY COMMENT_ID
@@ -381,12 +399,20 @@ describe('/api', () => {
       });
     });
     // DELETE COMMENT BY COMMENT_ID
-    describe('delete the given comment by comment_id', () => {
+    describe('DELETE COMMENT BY COMMENT_ID', () => {
       it('deletes the given comment by comment_id', () => request
         .delete('/api/comments/1')
         .expect(204)
         .then(() => request.get('/api/comment/1').expect(404)));
       it('responds with a 404 error if given incorrect comment_id', () => request.delete('/api/comments/999').expect(204));
+    });
+    describe('OTHER METHODS', () => {
+      it('responds to invalid method requests with 405 method not allowed', () => request
+        .put('/api/comments')
+        .expect(405)
+        .then((response) => {
+          expect(response.body.msg).to.eql('Method Not Allowed');
+        }));
     });
   });
   // USERS
@@ -484,6 +510,14 @@ describe('/api', () => {
         .expect(404)
         .then((response) => {
           expect(response.body.msg).to.eql('User Not Found');
+        }));
+    });
+    describe('OTHER METHODS', () => {
+      it('responds to invalid method requests with 405 method not allowed', () => request
+        .put('/api/users')
+        .expect(405)
+        .then((response) => {
+          expect(response.body.msg).to.eql('Method Not Allowed');
         }));
     });
   });

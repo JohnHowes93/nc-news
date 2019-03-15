@@ -9,11 +9,14 @@ const {
   postCommentByArticleIdController,
 } = require('../controllers/articles');
 
+const { handle405 } = require('../errors/index');
+
 articlesRouter
   .route('/')
   .get(getArticlesController)
   .post(postArticleController)
-  .patch(patchArticleController);
+  .patch(patchArticleController)
+  .all(handle405);
 
 articlesRouter
   .route('/:article_id')
