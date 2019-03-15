@@ -7,16 +7,8 @@
 
 ## Seeding
 
-- Can insert `users` and `topics` at the same time
+- Can insert `users` and `topics` at the same time <<< impletment a promise all>>>
 - No need for the `Promise.all` at the end
-- Avoid any mutations in seed functions, e.g.:
-
-```js
-newObj.article_id = articleRef[commentRef];
-delete newObj.belongs_to;
-newObj.author = comment.created_by;
-delete newObj.created_by;
-```
 
 ## Controllers
 
