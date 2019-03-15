@@ -5,3 +5,7 @@ exports.handle400s = (err, req, res, next) => {
   //   if (err.code === '22003') res.status(404).send({ msg: 'Article Not Found' }); <<< out of range of integar
   else next(err);
 };
+
+exports.handle405 = (req, res, next) => {
+  res.status(405).send({ msg: 'Method Not Allowed' });
+};
