@@ -26,21 +26,7 @@ delete newObj.created_by;
 
 ## Our Test Output
 
-### `POST /api/topics`
-
-status:400 if request body is malformed (missing description property):
-Error: expected 400 "Bad Request", got 201 "Created"
-
-- Up to you whether you want to change this. Might be nicer to deal with in the front end if it is always there.
-
-### `GET /api/articles`
-
-status:200 will ignore an invalid sort_by query:
-Error: expected 200 "OK", got 500 "Internal Server Error"
-
-- You can decide whether this should be a `400` or just ignored and `200`. Be consistent though. (this definitely shouldn't cause a `500` though)
-
-### `GET /api/articles/:article_id`
+<!-- ### `GET /api/articles/:article_id`
 
 status:200 responds with a single article object:
 
@@ -59,14 +45,14 @@ AssertionError: expected { Object (author, title, ...) } to have keys 'article_i
    ]
 ```
 
-- Don't serve the article body on the `/api/articles` route
+- Don't serve the article body on the `/api/articles` route -->
 
-### `PATCH /api/articles/:article_id`
+<!-- ### `PATCH /api/articles/:article_id`
 
 PATCH status:200s no body responds with an unmodified article:
 Error: expected 200 "OK", got 400 "Bad Request"
 
-- Up to you whether you want to change this. Just make sure you are consistent.
+- Up to you whether you want to change this. Just make sure you are consistent. -->
 
 ### `DELETE /api/articles/:article_id`
 

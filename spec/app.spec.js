@@ -26,7 +26,7 @@ describe('/api', () => {
     });
   });
 
-  describe.only('/topics', () => {
+  describe('/topics', () => {
     // GET
     it('responds to GET requests with an array of topics', () => request
       .get('/api/topics')
@@ -152,6 +152,10 @@ describe('/api', () => {
             response.body.articles[2].votes,
           );
         }));
+      it.only('ignores invalid column to sort by', () => request
+        .get('/api/articles?sort_by=test')
+        .expect(400)
+        .then(response => expect(response.body.msg).to.equal('Invalid Sort_By Query')));
     });
 
     // POST
