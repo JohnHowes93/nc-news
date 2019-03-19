@@ -91,6 +91,9 @@ const getCommentsByArticleIdController = (req, res, next) => {
 };
 
 const postCommentByArticleIdController = (req, res, next) => {
+  if (req.body.username === undefined || req.body.body === undefined) {
+    res.status(400).send({ msg: 'Bad Request' });
+  }
   getArticleByIdModel(req.params.article_id).then(([article]) => {
     if (article === undefined) {
       res.status(404).send({ msg: 'Article Not Found' });

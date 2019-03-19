@@ -372,6 +372,19 @@ describe('/api', () => {
             expect(response.body.msg).to.equal('Article Not Found');
           });
       });
+      it('responds with a 400 when given an invalid body referencing a non-existent column', () => {
+        const testPost2 = {
+          username: 'butter_bridge',
+          test: 'aaa',
+        };
+        return request
+          .post('/api/articles/1/comments')
+          .send(testPost2)
+          .expect(400)
+          .then((response) => {
+            expect(response.body.msg).to.equal('Bad Request');
+          });
+      });
     });
     describe('OTHER METHODS', () => {
       it('responds to invalid method requests with 405 method not allowed on /', () => request
