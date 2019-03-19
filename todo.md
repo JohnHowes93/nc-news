@@ -48,11 +48,6 @@ Error: expected 200 "OK", got 400 "Bad Request"
 
 ### `POST /api/articles/:article_id/comments`
 
-responds with a 404 when given a non-existent article id:
-Error: expected 404 "Not Found", got 400 "Bad Request"
-
-### `POST /api/articles/:article_id/comments`
-
 responds with a 400 when given an invalid body referencing a non-existent column:
 Error: expected 400 "Bad Request", got 201 "Created"
 

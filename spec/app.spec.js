@@ -359,17 +359,17 @@ describe('/api', () => {
             });
           });
       });
-      it('returns 400 error if article does not exist', () => {
+      it('returns 404 error if article does not exist', () => {
         const testPost1 = {
           username: 'butter_bridge',
           body: 'test test test this is the comment body',
         };
         return request
-          .post('/api/articles/a/comments')
+          .post('/api/articles/9999/comments')
           .send(testPost1)
-          .expect(400)
+          .expect(404)
           .then((response) => {
-            expect(response.body.msg).to.equal('Invalid Article ID');
+            expect(response.body.msg).to.equal('Article Not Found');
           });
       });
     });

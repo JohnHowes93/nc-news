@@ -91,15 +91,21 @@ const getCommentsByArticleIdController = (req, res, next) => {
 };
 
 const postCommentByArticleIdController = (req, res, next) => {
-  postCommentByArticleIdModel(
-    req.params.article_id,
-    req.body.username,
-    req.body.body,
-  )
-    .then(([comment]) => {
-      res.status(201).send({ comment });
-    })
-    .catch(next);
+  getArticleByIdModel(req.params.article_id).then(([article]) => {
+    if (article === undefined) {
+      res.status(404).send({ msg: 'Article Not Found' });
+    } else {
+      postCommentByArticleIdModel(
+        req.params.article_id,
+        req.body.username,
+        req.body.body,
+      )
+        .then(([comment]) => {
+          res.status(201).send({ comment });
+        })
+        .catch(next);
+    }
+  });
 };
 
 module.exports = {
