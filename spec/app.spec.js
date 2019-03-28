@@ -385,6 +385,19 @@ describe('/api', () => {
             expect(response.body.msg).to.equal('Bad Request');
           });
       });
+      it('responds with a 422 when given an invalid username', () => {
+        const testPost3 = {
+          username: 'testuser',
+          body: 'aaa',
+        };
+        return request
+          .post('/api/articles/1/comments')
+          .send(testPost3)
+          .expect(422)
+          .then((response) => {
+            expect(response.body.msg).to.equal('Unprocessable Entity');
+          });
+      });
     });
     describe('OTHER METHODS', () => {
       it('responds to invalid method requests with 405 method not allowed on /', () => request
@@ -439,6 +452,16 @@ describe('/api', () => {
             expect(response.body.msg).to.equal('Vote Not Valid Number');
           });
       });
+      it('returns status 404 if comment is not found', () => {
+        const testVote = { inc_votes: 'cat' };
+        return request
+          .patch('/api/comments/9999')
+          .send(testVote)
+          .expect(404)
+          .then((response) => {
+            expect(response.body.msg).to.equal('Not Found');
+          });
+      });
     });
     // DELETE COMMENT BY COMMENT_ID
     describe('DELETE COMMENT BY COMMENT_ID', () => {
@@ -446,8 +469,9 @@ describe('/api', () => {
         .delete('/api/comments/1')
         .expect(204)
         .then(() => request.get('/api/comment/1').expect(404)));
-      it('responds with a 404 error if given incorrect comment_id', () => request.delete('/api/comments/999').expect(204));
+      it('responds with a 404 error if given incorrect comment_id', () => request.delete('/api/comments/999').expect(404));
     });
+
     describe('OTHER METHODS', () => {
       it('responds to invalid method requests with 405 method not allowed on /', () => request
         .put('/api/comments')

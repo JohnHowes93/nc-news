@@ -30,6 +30,12 @@ const postUserController = (req, res, next) => {
 };
 
 const getUserByUsernameController = (req, res, next) => {
+  if (req.body.username) {
+    return getUserByUsernameModel(req.body.username).then(([requestedUser]) => {
+      if (requestedUser) return { requestedUser };
+      return { msg: 'Unprocessable Entity' };
+    });
+  }
   getUserByUsernameModel(req.params.username).then(([requestedUser]) => {
     if (requestedUser) res.status(200).send({ requestedUser });
     else res.status(404).send({ msg: 'User Not Found' });

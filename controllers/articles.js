@@ -8,6 +8,8 @@ const {
   postCommentByArticleIdModel,
 } = require('../models/articles');
 
+const { getUserByUsernameController } = require('../controllers/users');
+
 const getArticlesController = (req, res, next) => {
   const {
     author, topic, sort_by, order, limit,
@@ -78,35 +80,31 @@ const getCommentsByArticleIdController = (req, res, next) => {
       }
     })
     .catch(next);
-
-  // getCommentsByArticleIdModel()
-  //   .then(retrievedComments => {
-  //     if (retrievedComments.length === 0) {
-  //       res.status(404).send('No Comments Found');
-  //     } else {
-  //       res.status(200).send({ retrievedComments });
-  //     }
-  //   })
-  //   .catch(next);
 };
 
 const postCommentByArticleIdController = (req, res, next) => {
   if (req.body.username === undefined || req.body.body === undefined) {
     res.status(400).send({ msg: 'Bad Request' });
   }
-  getArticleByIdModel(req.params.article_id).then(([article]) => {
-    if (article === undefined) {
-      res.status(404).send({ msg: 'Article Not Found' });
+  getUserByUsernameController(req, res, next).then((response) => {
+    if (response.msg === 'Unprocessable Entity') {
+      res.status(422).send({ msg: 'Unprocessable Entity' });
     } else {
-      postCommentByArticleIdModel(
-        req.params.article_id,
-        req.body.username,
-        req.body.body,
-      )
-        .then(([comment]) => {
-          res.status(201).send({ comment });
-        })
-        .catch(next);
+      getArticleByIdModel(req.params.article_id).then(([article]) => {
+        if (article === undefined) {
+          res.status(404).send({ msg: 'Article Not Found' });
+        } else {
+          postCommentByArticleIdModel(
+            req.params.article_id,
+            req.body.username,
+            req.body.body,
+          )
+            .then(([comment]) => {
+              res.status(201).send({ comment });
+            })
+            .catch(next);
+        }
+      });
     }
   });
 };

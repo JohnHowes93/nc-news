@@ -1,5 +1,9 @@
 const connection = require('../db/connection');
 
+const getCommentByCommentIdModel = comment_id => connection('comments')
+  .where('comment_id', comment_id)
+  .returning('*');
+
 const patchCommentModel = (comment_id, newVote) => connection('comments')
   .where('comment_id', comment_id)
   .increment('votes', newVote || 0)
@@ -9,4 +13,8 @@ const deleteCommentByIdModel = comment_id => connection('comments')
   .where('comment_id', comment_id)
   .del();
 
-module.exports = { patchCommentModel, deleteCommentByIdModel };
+module.exports = {
+  patchCommentModel,
+  deleteCommentByIdModel,
+  getCommentByCommentIdModel,
+};

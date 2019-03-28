@@ -18,7 +18,6 @@ app.all('/*', (req, res, next) => {
 app.use(handle400s);
 
 app.use((err, req, res, next) => {
-  console.log(err);
   res.status(500).send({ msg: 'Internal Server Error' });
 });
 module.exports = app;
