@@ -12,7 +12,11 @@
     "migrate-make": "knex migrate:make",
     "migrate-latest": "knex migrate:latest",
     "migrate-rollback": "knex migrate:rollback",
-    "seed": "knex seed:run"
+    "seed": "knex seed:run",
+    "seed:prod": "DB_URL=$(heroku config:get DATABASE_URL) knex seed:run --env production",
+    "migrate:latest:prod": "DB_URL=$(heroku config:get DATABASE_URL) knex migrate:latest --env production",
+    "migrate:rollback:prod": "DB_URL=$(heroku config:get DATABASE_URL) knex migrate:rollback --env production",
+    "start": "node listen.js"
   },
   "repository": {
     "type": "git",
