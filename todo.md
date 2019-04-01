@@ -8,7 +8,3 @@
 
 - Can insert `users` and `topics` at the same time <<< impletment a promise all>>>
 - No need for the `Promise.all` at the end
-
-## Controllers
-
-- extract the `/api` route data into a `.json` file that can be required in
