@@ -22,6 +22,6 @@ exports.seed = function (knex, Promise) {
       const insertedComments = knex('comments')
         .insert(dateParser(formattedComments))
         .returning('*');
-      return Promise.all([articleRows, insertedComments]);
+      return insertedComments;
     });
 };
