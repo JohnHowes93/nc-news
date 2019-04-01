@@ -14,10 +14,14 @@ const getArticlesController = (req, res, next) => {
   const {
     author, topic, sort_by, order, limit,
   } = req.query;
+  if (sort_by !== 'created_at' || 'votes' || 'comment_count') {
+    ('created_at');
+  }
   return getArticlesModel(author, topic, sort_by, order, limit)
     .then((articles) => {
+      if (articles.length === 0) res.status(200).send([]);
       if (articles.length > 0) res.status(200).send({ articles });
-      else Promise.reject({ status: 404, msg: 'Article Not Found' });
+      else return Promise.reject({ status: 404, msg: 'Article Not Found' });
     })
     .catch(next);
 };
@@ -41,23 +45,25 @@ const getArticleByIdController = (req, res, next) => getArticleByIdModel(req.par
   })
   .catch(next);
 
-const patchArticleController = (req, res, next) => {
-  if (req.body.inc_votes === undefined) {
-    res.status(400).send({ msg: 'Vote Not Found' });
-  } else if (typeof req.body.inc_votes !== 'number') {
-    res.status(400).send({ msg: 'Vote Not Valid Number' });
-  } else {
-    patchArticleModel(req.params.article_id, req.body.inc_votes)
-      .then(([article]) => res.status(200).send({ article }))
-      .catch(next);
-  }
-};
+const patchArticleController = (req, res, next) => getArticleByIdModel(req.params.article_id)
+  .then((retrivedArticle) => {
+    if (req.body.inc_votes === undefined) {
+      res.status(200).send(retrivedArticle);
+    } else if (typeof req.body.inc_votes !== 'number') {
+      res.status(400).send({ msg: 'Vote Not Valid Number' });
+    } else {
+      return patchArticleModel(req.params.article_id, req.body.inc_votes)
+        .then(([article]) => res.status(200).send({ article }))
+        .catch(next);
+    }
+  })
+  .catch(next);
 
 const deleteArticleByIdController = (req, res, next) => deleteArticleByIdModel(req.params.article_id)
   .then((itemsDeleted) => {
     if (itemsDeleted === 1) {
       res.sendStatus(204);
-    } else res.sendStatus(400);
+    } else res.sendStatus(404);
   })
   .catch(next);
 

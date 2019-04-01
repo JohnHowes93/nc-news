@@ -15,7 +15,6 @@ articlesRouter
   .route('/')
   .get(getArticlesController)
   .post(postArticleController)
-  .patch(patchArticleController)
   .all(handle405);
 
 articlesRouter

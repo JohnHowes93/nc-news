@@ -63,7 +63,7 @@ describe('/api', () => {
           expect(response.body.msg).to.eql('Topic Already Exists');
         });
     });
-    it('responds to invalid POST request (if body is missing description property) with 400 status and message: Topic Description Required', () => {
+    it('responds to invalid POST request (if body is missing description property) with 422 status and message: Topic Description Required', () => {
       const testTopic = { slug: 'testslug' };
       return request
         .post('/api/topics')
@@ -229,6 +229,7 @@ describe('/api', () => {
             'created_at',
             'votes',
             'comment_count',
+            'body',
           );
           expect(response.body.article.article_id).to.equal(2);
         }));
@@ -267,15 +268,12 @@ describe('/api', () => {
             expect(response.body.article.votes).to.equal(0);
           });
       });
-      it('returns status 400 if no inc_votes is passed', () => {
+      it('returns the unmodified article if no inc_votes is passed', () => {
         const testVote = { aaa: -100 };
         return request
           .patch('/api/articles/1')
           .send(testVote)
-          .expect(400)
-          .then((response) => {
-            expect(response.body.msg).to.equal('Vote Not Found');
-          });
+          .expect(200);
       });
       it('returns status 400 if inc_votes is not a number', () => {
         const testVote = { inc_votes: 'cat' };
@@ -292,7 +290,7 @@ describe('/api', () => {
     // DELETE
     describe('DELETE', () => {
       it('deletes the given article by article_id', () => request.delete('/api/articles/1').expect(204));
-      it('responds with a 400 if given incorrect article_id', () => request.delete('/api/articles/999').expect(400));
+      it('responds with a 400 if given incorrect article_id', () => request.delete('/api/articles/999').expect(404));
     });
 
     // GET COMMENTS BY ID
@@ -432,15 +430,12 @@ describe('/api', () => {
             expect(response.body.patchedComment.votes).to.equal(2);
           });
       });
-      it('returns status 400 if no inc_votes is passed', () => {
+      it('returns status 200 if no inc_votes is passed', () => {
         const testVote = { aaa: -100 };
         return request
           .patch('/api/comments/1')
           .send(testVote)
-          .expect(400)
-          .then((response) => {
-            expect(response.body.msg).to.equal('Vote Not Found');
-          });
+          .expect(200);
       });
       it('returns status 400 if inc_votes is not a number', () => {
         const testVote = { inc_votes: 'cat' };

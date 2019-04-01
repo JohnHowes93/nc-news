@@ -50,6 +50,7 @@ const getArticleByIdModel = article_id => connection
     'articles.topic',
     'articles.created_at',
     'articles.votes',
+    'articles.body',
   )
   .from('articles')
   .where('articles.article_id', article_id)
