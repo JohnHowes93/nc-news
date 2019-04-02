@@ -1,7 +1,7 @@
 {
   "apiTopics": {
-    "GET /api/articles": "Responds with an array of topic objects, each of which should have the following properties: slug, description",
-    "POST /api/articles": "Request body accepts an object containing the following properties: slug (which must be unique), description. Responds with the posted topic object"
+    "GET /api/topics": "Responds with an array of topic objects, each of which should have the following properties: slug, description",
+    "POST /api/topics": "Request body accepts an object containing the following properties: slug (which must be unique), description. Responds with the posted topic object"
   },
   "apiArticles": {
     "GET /api/articles": "Responds with an articles array of article objects, each of which should have the following properties: author (which is the username from the users table), title, article_id, topic, created_at, votes & comment_count (which is the total count of all the comments with this article_id). It accepts queries:  (which filters the articles by the username value specified in the query), topic (which filters the articles by the topic value specified in the query), sort_by (which sorts the articles by any valid column and defaults to date, order (which can be set to asc or desc for ascending or descending and defaults to descending), limit which limits the number of responses and defaults to 10",
