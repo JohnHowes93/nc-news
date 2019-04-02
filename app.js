@@ -5,9 +5,11 @@ const app = express();
 const bodyParser = require('body-parser');
 const apiRouter = require('./routers/api_router.js');
 const { handle400s } = require('./errors/index');
+const cors = require('cors');
 
 // app.use
 app.use(bodyParser.json());
+app.use(cors());
 
 app.use('/api', apiRouter);
 
