@@ -8,8 +8,9 @@ const { handle400s } = require('./errors/index');
 const cors = require('cors');
 
 // app.use
-app.use(bodyParser.json());
 app.use(cors());
+
+app.use(bodyParser.json());
 
 app.use('/api', apiRouter);
 
